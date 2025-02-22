@@ -8,8 +8,8 @@ export class Start extends Phaser.Scene
     preload()
     {
         this.load.image('background', 'assets/space.png');
-        this.load.image('logo', 'assets/phaser.png');
-
+        this.load.image('logo', 'assets/habitquest.png');
+        this.load.image('button', 'assets/play_button.png'); // Load play button image
         //  The ship sprite is CC0 from https://ansimuz.itch.io - check out his other work!
         this.load.spritesheet('ship', 'assets/spaceship.png', { frameWidth: 176, frameHeight: 96 });
     }
@@ -18,9 +18,22 @@ export class Start extends Phaser.Scene
     {
         this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
 
-        const logo = this.add.image(640, 200, 'logo');
+        const logo = this.add.image(640, 200, 'logo'); // 'logo' is named in preload()
 
-        const ship = this.add.sprite(640, 360, 'ship');
+        const playButton = this.add.image(640, 500, 'button')
+            .setInteractive() //make it clickable
+            .setScale(0.5); //Resize if needed
+        
+        //On click, switch to "Game" scene
+        playButton.on('pointerdown', () => {
+            this.scene.start('Game');
+        });
+
+        // Hover effect (optional)
+        playButton.on('pointerover', () => playButton.setScale(0.55));
+        playButton.on('pointerout', () => playButton.setScale(0.5));
+
+        const ship = this.add.sprite(640, 360, 'ship'); //'ship' is named in preload() 
 
         ship.anims.create({
             key: 'fly',
