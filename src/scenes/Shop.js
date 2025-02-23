@@ -27,8 +27,9 @@ export class Shop extends Phaser.Scene{
         let healthPotion = this.add.image(900, 700, 'healthPotion').setInteractive().on('pointerdown', () => {
             this.uiScene.updateUI(100, this.uiScene.stamina, this.uiScene.coins-20)
         });    
-        let backButton = this.add.text(1920-100, 100, "Back", {fontSize:"48px", fill:"#000"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
-            this.scene.start('Game');
+        let backButton = this.add.text(1920-100, 100, "Back", {fontSize:"48px", fill:"#fff"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
+            this.scene.stop('Shop');
+            this.scene.launch('Game')
         })
     }
 
