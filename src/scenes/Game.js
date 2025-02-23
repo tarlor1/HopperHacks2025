@@ -195,8 +195,12 @@ export class Game extends Phaser.Scene {
 	//Edit later (Dungeon boss)
 	openDungeon(){
 		// Open Dungeon Scene
+		// Keep UI scene running
+		if (!this.scene.isActive("UIScene")) {
+			this.scene.launch("UIScene");
+		}
 		console.log("Entering Dungeon");
-		this.scene.launch("Dungeon");
+		this.scene.start("Dungeon");
 	}
 
 }

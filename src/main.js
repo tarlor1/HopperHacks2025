@@ -15,7 +15,7 @@ const config = {
     width: 1920,
     height: 1080,
     pixelArt: true,
-    scene: [ Start, Login, Game, HabitTracking, UIScene, Dungeon ],  // Add all scenes here
+    scene: [ Start, Login, UIScene, Game, HabitTracking, Dungeon ],  // Add all scenes here
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
