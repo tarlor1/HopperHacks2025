@@ -30,7 +30,6 @@ export class Dungeon extends Phaser.Scene
 
         this.scene.bringToTop("UIScene");
 
-
     }
 
     update()
