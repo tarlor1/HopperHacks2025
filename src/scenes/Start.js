@@ -26,7 +26,7 @@ export class Start extends Phaser.Scene
         
         //On click, switch to "Game" scene
         playButton.on('pointerdown', () => {
-            this.scene.start('Game');
+            this.scene.start('Login');
         });
 
         // Hover effect (optional)
