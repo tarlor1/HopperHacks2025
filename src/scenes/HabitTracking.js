@@ -37,42 +37,36 @@ export class HabitTracking extends Phaser.Scene
                 if(habit){
                     this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins+5);
                 }
-                goodHabitInput1.node.value = "";
             })
             let goodButton2 = this.add.text(500, 600, "Submit", {fontSize:"48px", fill:"#0f0"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
                 let habit = goodHabitInput2.node.value;
                 if(habit){
                     this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins+5);
                 }
-                goodHabitInput2.node.value = "";
             })
             let goodButton3 = this.add.text(500, 800, "Submit", {fontSize:"48px", fill:"#0f0"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
                 let habit = goodHabitInput3.node.value;
                 if(habit){
                     this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins+5);
                 }
-                goodHabitInput3.node.value = "";
             })
             let badButton1 = this.add.text(1820, 400, "Submit", {fontSize:"48px", fill:"#0f0"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
                 let habit = badHabitInput1.node.value;
                 if(habit){
                     this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins-5);
                 }
-                badHabitInput1.node.value = "";
             })
             let badButton2 = this.add.text(1820, 600, "Submit", {fontSize:"48px", fill:"#0f0"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
                 let habit = badHabitInput2.node.value;
                 if(habit != ""){
                     this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins-5);
                 }
-                badHabitInput2.node.value = "";
             })
             let badButton3 = this.add.text(1820, 800, "Submit", {fontSize:"48px", fill:"#0f0"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
                 let habit = badHabitInput3.node.value;
                 if(habit){
                     this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins-5);
                 }
-                badHabitInput3.node.value = "";
             })
             let backButton = this.add.text(1920-100, 100, "Back", {fontSize:"48px", fill:"#fff"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
                 this.scene.stop('HabitTracking');
