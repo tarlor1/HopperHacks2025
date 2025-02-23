@@ -8,30 +8,22 @@ export class Login extends Phaser.Scene
     
     preload()
     {
-        this.load.image('logo', 'assets/phaser.png');
+        //this.load.image('logo', 'assets/phaser.png');
     }
 
     create()
     {
-        const logo = this.add.image(this.cameras.main.width/2, 200, 'logo');
+        let loginText;
+        let createAccText;
+        //const logo = this.add.image(this.cameras.main.width/2, 200, 'logo');
 
         // Create username input
-        let uHeader = this.add.text(this.cameras.main.width/2, 570, "Username:", {fontSize: "32px", fill: "#fff"}).setOrigin(0.5, 0.5);
-        let usernameInput = this.add.dom(this.cameras.main.width/2, 600, 'input', {
-            type: 'text',
-            placeholder: 'Username:',
-            value: "", 
-            fill: "#000"
-        }).setOrigin(0.5, 0.5);
+        let uHeader = this.add.text(this.cameras.main.width/2, 570, "Username:", {fontSize: "24px", fill: "#fff"}).setOrigin(0.5, 0.5);
+        let usernameInput = this.add.dom(this.cameras.main.width/2, 600, 'input').setOrigin(0.5, 0.5);
 
         // Create password input
-        let pHEader = this.add.text(this.cameras.main.width/2, 670, "Password:", {fontSize: "32px", fill: "#fff"}).setOrigin(0.5, 0.5);
-        let passwordInput = this.add.dom(this.cameras.main.width/2, 700, 'input', {
-            type: 'password',
-            placeholder: 'Password:',
-            value: "",
-            fill: "#000"
-        }).setOrigin(0.5, 0.5);
+        let pHEader = this.add.text(this.cameras.main.width/2, 670, "Password:", {fontSize: "24px", fill: "#fff"}).setOrigin(0.5, 0.5);
+        let passwordInput = this.add.dom(this.cameras.main.width/2, 700, 'input').setOrigin(0.5, 0.5);
 
         let createButton = this.add.text(this.cameras.main.width/2, 900, "Create Account", {fontSize: "48px", fill: "#fff" })
         .setOrigin(0.5, 0.5)
@@ -44,15 +36,22 @@ export class Login extends Phaser.Scene
         })
         .on('pointerdown', () => {
             loginButton.value = "";
-            headerText.value = "Create Account";
             let username = usernameInput.node.value;
             let password = passwordInput.node.value;
             if(username!="" && password!=""){
                 localStorage.setItem(username, password);
             }
+            if(loginText){
+                loginText.destroy();
+            }
+            createAccText = this.add.text(this.cameras.main.width/2, 750, "Account Successfully Created", { fontSize: "24px", fill: "green" }).setOrigin(0.5, 0.5);
+            this.time.delayedCall(1000, () => {
+                createAccText.destroy();
+            });
             usernameInput.destroy();
             passwordInput.destroy();
-            this.create();
+            usernameInput = this.add.dom(this.cameras.main.width/2, 600, 'input').setOrigin(0.5, 0.5);
+            passwordInput = this.add.dom(this.cameras.main.width/2, 700, 'input').setOrigin(0.5, 0.5);
         });
 
         // Create login button
@@ -68,15 +67,19 @@ export class Login extends Phaser.Scene
             .on('pointerdown', () => {
                 let username = usernameInput.node.value;
                 let password = passwordInput.node.value;
-                let loginText;
                 if (localStorage.getItem(username) === password && username!= "" && password != "") {
                     usernameInput.destroy();
                     passwordInput.destroy();
                     loginButton.destroy();
                     this.scene.start('Game');
                 } else {
-                    loginText = this.add.text(this.cameras.main.width/2, 800, "Invalid login", { fontSize: "48px", fill: "#f00" });
-                    loginText.setOrigin(0.5, 0.5)
+                    if(createAccText){
+                        createAccText.destroy();
+                    }
+                    loginText = this.add.text(this.cameras.main.width/2, 750, "Invalid Login", { fontSize: "24px", fill: "#f00" }).setOrigin(0.5, 0.5);
+                    this.time.delayedCall(1000, () => {
+                        loginText.destroy();
+                    });
                 }
             });
 
