@@ -3,6 +3,7 @@ import { Game } from './scenes/Game.js';  // Import Game scene
 import { Login } from './scenes/Login.js';
 import { HabitTracking } from './scenes/HabitTracking.js';
 import { UIScene } from './scenes/UIScene.js';
+import { Dungeon } from './scenes/Dungeon.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -14,7 +15,7 @@ const config = {
     width: 1920,
     height: 1080,
     pixelArt: true,
-    scene: [ Start, Login, Game, HabitTracking, UIScene ],  // Add all scenes here
+    scene: [ Start, Login, Game, HabitTracking, UIScene, Dungeon ],  // Add all scenes here
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
