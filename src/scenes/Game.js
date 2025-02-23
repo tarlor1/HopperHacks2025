@@ -186,12 +186,14 @@ export class Game extends Phaser.Scene {
         // Open the Habit Tracking Scene
 		this.scene.stop('Game');
         console.log("Opening Habit Tracker...");
+		this.scene.stop("Game");
         this.scene.launch("HabitTracking");
     }
     openShop() {
         // Open the Shop Scene
 		this.scene.stop('Game');
         console.log("Opening Shop...");
+		this.scene.stop("Game");
         this.scene.launch("Shop");
     }
 
