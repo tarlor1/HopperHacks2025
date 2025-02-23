@@ -23,8 +23,8 @@ export class HabitTracking extends Phaser.Scene
 		}
         this.uiScene = this.scene.get("UIScene");
         this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins);
-        let goodHabitText = this.add.text(300, 200, "Good Habit", {fontSize: "48px", fill: "#000"}).setOrigin(0.5, 0.5);
-        let badHabitText = this.add.text(1920-300, 200, "Bad Habit", {fontSize: "48px", fill: "#000"}).setOrigin(0.5, 0.5);
+        let goodHabitText = this.add.text(300, 200, "Good Habit", {fontSize: "48px", fill: "#fff"}).setOrigin(0.5, 0.5);
+        let badHabitText = this.add.text(1920-300, 200, "Bad Habit", {fontSize: "48px", fill: "#fff"}).setOrigin(0.5, 0.5);
         let goodHabitInput1 = this.add.dom(300, 400, 'input').setOrigin(0.5, 0.5);
         let goodHabitInput2 = this.add.dom(300, 600, 'input').setOrigin(0.5, 0.5);
         let goodHabitInput3 = this.add.dom(300, 800, 'input').setOrigin(0.5, 0.5);
