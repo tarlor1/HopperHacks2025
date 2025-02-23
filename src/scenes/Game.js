@@ -12,6 +12,7 @@ export class Game extends Phaser.Scene {
 		this.load.tilemapTiledJSON("town", "assets/hopperland.json");
 		this.load.image("grass", "assets/Tilesets/Grass.png");
 		this.load.image("dirt", "assets/Tilesets/TilledDirt.png"); // Ensure correct path
+        this.load.image("buildings", "assets/storeandhabits.png");
 
 		this.load.spritesheet("dude", "assets/dude.png", {
 			frameWidth: 32,
@@ -31,14 +32,17 @@ export class Game extends Phaser.Scene {
 		// Add tilesets (names must match Tiled)
 		const tileset1 = map.addTilesetImage("Grass", "grass"); // Match 'Grass' in Tiled
 		const tileset2 = map.addTilesetImage("TilledDirt", "dirt"); // Match 'TilledDirt' in Tiled
+        const tileset3 = map.addTilesetImage("storeandhabits", "buildings");
 
 		// Create layers
 		const grassLayer = map.createLayer("GrassLayer", tileset1, 0, 0);
 		const dirtLayer = map.createLayer("DirtLayer", tileset2, 0, 0);
+        const buildingLayer = map.createLayer("BuildingLayer", tileset3, 0, 0);
 
 		// Make sure the layers are visible
 		grassLayer.setVisible(true);
 		dirtLayer.setVisible(true);
+        buildingLayer.setVisible(true);
 
 		// Enable collision on layers
 		// grassLayer.setCollisionByProperty({ collides: true });
