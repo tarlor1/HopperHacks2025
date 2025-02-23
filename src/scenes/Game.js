@@ -12,8 +12,7 @@ export class Game extends Phaser.Scene {
 		this.load.tilemapTiledJSON("town", "assets/hopperland.json");
 		this.load.image("grass", "assets/Tilesets/Grass.png");
 		this.load.image("dirt", "assets/Tilesets/TilledDirt.png"); // Ensure correct path
-        this.load.image("buildings", "assets/storeandhabits.png");
-
+		this.load.image("buildings", "assets/storeandhabits.png");
 		this.load.spritesheet("dude", "assets/dude.png", {
 			frameWidth: 32,
 			frameHeight: 48,
@@ -24,6 +23,13 @@ export class Game extends Phaser.Scene {
 		if (!this.scene.isActive("UIScene")) {
 			this.scene.launch("UIScene");
 		}
+		this.uiScene = this.scene.get("UIScene");
+
+		// Example: Displaying UI values (HP, stamina, and coins)
+		console.log("Player HP:", this.uiScene.hp);
+		console.log("Player Stamina:", this.uiScene.stamina);
+		console.log("Player Coins:", this.uiScene.coins);
+
 		console.log("Switching to Game scene");
 
 		// Create tilemap
@@ -32,17 +38,25 @@ export class Game extends Phaser.Scene {
 		// Add tilesets (names must match Tiled)
 		const tileset1 = map.addTilesetImage("Grass", "grass"); // Match 'Grass' in Tiled
 		const tileset2 = map.addTilesetImage("TilledDirt", "dirt"); // Match 'TilledDirt' in Tiled
-        const tileset3 = map.addTilesetImage("storeandhabits", "buildings");
+		const tileset3 = map.addTilesetImage(
+			"storeandhabits",
+			"buildings",
+		);
 
 		// Create layers
 		const grassLayer = map.createLayer("GrassLayer", tileset1, 0, 0);
 		const dirtLayer = map.createLayer("DirtLayer", tileset2, 0, 0);
-        const buildingLayer = map.createLayer("BuildingLayer", tileset3, 0, 0);
+		const buildingLayer = map.createLayer(
+			"BuildingLayer",
+			tileset3,
+			0,
+			0,
+		);
 
 		// Make sure the layers are visible
 		grassLayer.setVisible(true);
 		dirtLayer.setVisible(true);
-        buildingLayer.setVisible(true);
+		buildingLayer.setVisible(true);
 
 		// Enable collision on layers
 		// grassLayer.setCollisionByProperty({ collides: true });
@@ -108,13 +122,16 @@ export class Game extends Phaser.Scene {
 		}
 
 		// 💖 Example: Reduce stamina when moving
-		let stamina = Math.max(0, 100 - this.player.y / 5);
-		let coins = Math.floor(this.player.x / 50); // Increase coins based on movement
+		let hp = this.uiScene.hp;
+		let stamina = this.uiScene.stamina;
+		let coins = this.uiScene.coins;
+
+		// Increase coins based on habit tracker
 
 		// 🔄 Update UI in UIScene
 		let uiScene = this.scene.get("UIScene");
 		if (uiScene) {
-			uiScene.updateUI(100, stamina, coins);
+			uiScene.updateUI(hp, stamina, coins);
 		}
 	}
 }

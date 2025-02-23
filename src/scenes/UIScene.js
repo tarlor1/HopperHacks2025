@@ -1,6 +1,10 @@
 export class UIScene extends Phaser.Scene {
 	constructor() {
 		super({ key: "UIScene" });
+
+		this._hp = 100;
+		this._stamina = 100;
+		this._coins = 0;
 	}
 
 	create() {
@@ -43,14 +47,48 @@ export class UIScene extends Phaser.Scene {
 
 	// 🔄 Update UI globally
 	updateUI(hp, stamina, coins) {
+		this.hp = hp;
 		this.hpBar.clear();
 		this.hpBar.fillStyle(0xff0000, 1);
 		this.hpBar.fillRoundedRect(10, 10, hp * 2, 15, 5);
 
+		this.stamina = stamina;
 		this.staminaBar.clear();
 		this.staminaBar.fillStyle(0x007bff, 1);
 		this.staminaBar.fillRoundedRect(10, 30, stamina * 1.5, 15, 5);
 
+		this.coins = coins;
 		this.coinText.setText(coins);
+	}
+
+	updateHP() {
+		this.hpBar.clear();
+		this.hpBar.fillStyle(0xff0000, 1);
+	}
+
+	// Getter methods
+	get hp() {
+		return this._hp;
+	}
+
+	get stamina() {
+		return this._stamina;
+	}
+
+	get coins() {
+		return this._coins;
+	}
+
+	// Setter methods (if needed)
+	set hp(value) {
+		this._hp = value;
+	}
+
+	set stamina(value) {
+		this._stamina = value;
+	}
+
+	set coins(value) {
+		this._coins = value;
 	}
 }
