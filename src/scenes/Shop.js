@@ -37,7 +37,7 @@ export class Shop extends Phaser.Scene{
 
     update()
     {
-        if(!held){
+        if(held == false){
             if(this.cursors.up.isDown || this.cursors.up.isRight){
                 i = (i+1)%(itemList.length);
                 held = true;
