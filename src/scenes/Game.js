@@ -100,6 +100,8 @@ export class Game extends Phaser.Scene {
         // Trigger areas for HabitTracking and Shop
         this.habitTrackingArea = new Phaser.Geom.Rectangle(32*11, 69, 32, 32); // Example area for HabitTracking
         this.shopArea = new Phaser.Geom.Rectangle(32*18, 69, 32, 32); // Example area for Shop
+		this.dungeonArea = new Phaser.Geom.Rectangle(408, 488, 32*4, 32*4);
+
 
 		// Set collide world bounds for the player
 		// this.player.setCollideWorldBounds(true);
@@ -154,7 +156,14 @@ export class Game extends Phaser.Scene {
             if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
                 this.openShop();
             }
-        } else {
+        } else if (Phaser.Geom.Rectangle.Contains(this.dungeonArea, this.player.x, this.player.y)) {
+            console.log("On Dungeon");
+            this.displayMessage("Press 'E' to enter Dungeon");
+            if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+                this.openDungeon();
+            }
+        } 
+		else {
             this.hideMessage();
         }
 	}
@@ -175,13 +184,25 @@ export class Game extends Phaser.Scene {
     openHabitTracking() {
         // Open the Habit Tracking Scene
         console.log("Opening Habit Tracker...");
+		this.scene.stop("Game");
         this.scene.launch("HabitTracking");
     }
     openShop() {
         // Open the Shop Scene
         console.log("Opening Shop...");
+		this.scene.stop("Game");
         this.scene.launch("Shop");
     }
 
+	//Edit later (Dungeon boss)
+	openDungeon(){
+		// Open Dungeon Scene
+		// Keep UI scene running
+		if (!this.scene.isActive("UIScene")) {
+			this.scene.launch("UIScene");
+		}
+		console.log("Entering Dungeon");
+		this.scene.start("Dungeon");
+	}
 
 }

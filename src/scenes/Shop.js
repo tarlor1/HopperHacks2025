@@ -6,8 +6,8 @@ export class Shop extends Phaser.Scene{
 
     preload()
     {
-        //this.load.image('staminaPotion', 'assets/stamina_potion.png');
-        //this.load.image('healthPotion', 'assets/health_potion.png');
+        this.load.image('staminaPotion', 'assets/staminapotion.png');
+        this.load.image('healthPotion', 'assets/healthpotion.png');
         this.load.image('background', 'assets/wood_background.png');
         
     }
@@ -29,7 +29,9 @@ export class Shop extends Phaser.Scene{
         this.keys = {
             Enter: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
         };        
-        
+        let backButton = this.add.text(1920-100, 100, "Back", {fontSize:"48px", fill:"#000"}).setOrigin(0.5, 0.5).setInteractive().on('pointerdown', () => {
+            this.scene.start('Game');
+        })
 
     }
 

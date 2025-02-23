@@ -83,6 +83,9 @@ export class Login extends Phaser.Scene {
     }
 
     showMessage(text, color) {
-        this.add.text(this.cameras.main.width / 2, 850, text, { fontSize: "32px", fill: color }).setOrigin(0.5, 0.5);
+        let message = this.add.text(this.cameras.main.width / 2, 850, text, { fontSize: "32px", fill: color }).setOrigin(0.5, 0.5);
+        this.time.delayedCall(1000, () => {
+            message.destroy(); // Hide the message
+        });
     }
 }
