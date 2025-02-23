@@ -1,14 +1,10 @@
-export class Login extends Phaser.Scene
-{
-    constructor()
-    {
+export class Login extends Phaser.Scene {
+    constructor() {
         super('Login');
     }
 
-    
-    preload()
-    {
-        //this.load.image('logo', 'assets/phaser.png');
+    preload() {
+        this.load.image('logo', 'assets/phaser.png');
     }
 
     create()
@@ -23,76 +19,70 @@ export class Login extends Phaser.Scene
         let headerText = this.add.text(1920/2-96*2, 400-96, "Log in", { fontSize: "96px", fill: "#fff" });
 
         // Create username input
-        let uHeader = this.add.text(this.cameras.main.width/2, 570, "Username:", {fontSize: "24px", fill: "#fff"}).setOrigin(0.5, 0.5);
-        let usernameInput = this.add.dom(this.cameras.main.width/2, 600, 'input').setOrigin(0.5, 0.5);
+        let uHeader = this.add.text(this.cameras.main.width / 2, 570, "Username:", { fontSize: "32px", fill: "#fff" }).setOrigin(0.5, 0.5);
+        let usernameInput = this.add.dom(this.cameras.main.width / 2, 600, 'input', {
+            type: 'text',
+            placeholder: 'Username:',
+            value: "",
+            fill: "#000"
+        }).setOrigin(0.5, 0.5);
 
         // Create password input
-        let pHEader = this.add.text(this.cameras.main.width/2, 670, "Password:", {fontSize: "24px", fill: "#fff"}).setOrigin(0.5, 0.5);
-        let passwordInput = this.add.dom(this.cameras.main.width/2, 700, 'input').setOrigin(0.5, 0.5);
+        let pHeader = this.add.text(this.cameras.main.width / 2, 670, "Password:", { fontSize: "32px", fill: "#fff" }).setOrigin(0.5, 0.5);
+        let passwordInput = this.add.dom(this.cameras.main.width / 2, 700, 'input', {
+            type: 'password',
+            placeholder: 'Password:',
+            value: "",
+            fill: "#000"
+        }).setOrigin(0.5, 0.5);
 
-        let createButton = this.add.text(this.cameras.main.width/2, 900, "Create Account", {fontSize: "48px", fill: "#fff" })
-        .setOrigin(0.5, 0.5)
-        .setInteractive()
-        .on('pointerover', () => {
-            createButton.setStyle({ fill: "#ff0" });  
-        })
-        .on('pointerout', () => {
-            createButton.setStyle({ fill: "#fff" });  
-        })
-        .on('pointerdown', () => {
-            loginButton.value = "";
-            let username = usernameInput.node.value;
-            let password = passwordInput.node.value;
-            if(username!="" && password!=""){
-                localStorage.setItem(username, password);
-            }
-            if(loginText){
-                loginText.destroy();
-            }
-            createAccText = this.add.text(this.cameras.main.width/2, 750, "Account Successfully Created", { fontSize: "24px", fill: "green" }).setOrigin(0.5, 0.5);
-            this.time.delayedCall(1000, () => {
-                createAccText.destroy();
-            });
-            usernameInput.destroy();
-            passwordInput.destroy();
-            usernameInput = this.add.dom(this.cameras.main.width/2, 600, 'input').setOrigin(0.5, 0.5);
-            passwordInput = this.add.dom(this.cameras.main.width/2, 700, 'input').setOrigin(0.5, 0.5);
-        });
-
-        // Create login button
-        let loginButton = this.add.text(this.cameras.main.width/2, 800, "Login", {fontSize: "48px", fill: "#fff" })
+        // Create Account Button
+        let createButton = this.add.text(this.cameras.main.width / 2, 900, "Create Account", { fontSize: "48px", fill: "#fff" })
             .setOrigin(0.5, 0.5)
             .setInteractive()
-            .on('pointerover', () => {
-                loginButton.setStyle({ fill: "#ff0" });  
-            })
-            .on('pointerout', () => {
-                loginButton.setStyle({ fill: "#fff" });  
-            })
+            .on('pointerover', () => createButton.setStyle({ fill: "#ff0" }))
+            .on('pointerout', () => createButton.setStyle({ fill: "#fff" }))
             .on('pointerdown', () => {
                 let username = usernameInput.node.value;
                 let password = passwordInput.node.value;
-                if (localStorage.getItem(username) === password && username!= "" && password != "") {
-                    usernameInput.destroy();
-                    passwordInput.destroy();
-                    loginButton.destroy();
-                    this.scene.start('Game');
-                } else {
-                    if(createAccText){
-                        createAccText.destroy();
+
+                if (username !== "" && password !== "") {
+                    // Check if user already exists
+                    if (localStorage.getItem(username)) {
+                        this.showMessage("Username already exists!", "#f00");
+                    } else {
+                        let userData = { password: password };
+                        localStorage.setItem(username, JSON.stringify(userData));
+                        this.showMessage("Account Created!", "#0f0");
                     }
-                    loginText = this.add.text(this.cameras.main.width/2, 750, "Invalid Login", { fontSize: "24px", fill: "#f00" }).setOrigin(0.5, 0.5);
-                    this.time.delayedCall(1000, () => {
-                        loginText.destroy();
-                    });
                 }
             });
 
+        // Login Button
+        let loginButton = this.add.text(this.cameras.main.width / 2, 800, "Login", { fontSize: "48px", fill: "#fff" })
+            .setOrigin(0.5, 0.5)
+            .setInteractive()
+            .on('pointerover', () => loginButton.setStyle({ fill: "#ff0" }))
+            .on('pointerout', () => loginButton.setStyle({ fill: "#fff" }))
+            .on('pointerdown', () => {
+                let username = usernameInput.node.value;
+                let password = passwordInput.node.value;
+
+                let storedData = localStorage.getItem(username);
+                if (storedData) {
+                    let userData = JSON.parse(storedData);
+                    if (userData.password === password) {
+                        this.scene.start('Game');
+                    } else {
+                        this.showMessage("Invalid login!", "#f00");
+                    }
+                } else {
+                    this.showMessage("User not found!", "#f00");
+                }
+            });
     }
 
-    update()
-    {
-
+    showMessage(text, color) {
+        this.add.text(this.cameras.main.width / 2, 850, text, { fontSize: "32px", fill: color }).setOrigin(0.5, 0.5);
     }
 }
-
