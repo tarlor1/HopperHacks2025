@@ -8,12 +8,12 @@ export class Login extends Phaser.Scene
     
     preload()
     {
-        this.load.image('background', 'assets/space.png');
         this.load.image('logo', 'assets/phaser.png');
     }
 
     create()
     {
+        const logo = this.add.image(this.cameras.main.width/2, 200, 'logo');
         // todo: work on background
         this.background = this.add.tileSprite(1920/2, 1080/2, 1920, 1080, 'background');
 
@@ -22,23 +22,32 @@ export class Login extends Phaser.Scene
         let headerText = this.add.text(1920/2-96*2, 400-96, "Log in", { fontSize: "96px", fill: "#fff" });
 
         // Create username input
-        let usernameInput = this.add.dom(1920/2-48, 600-96, 'input', {
+        let uHeader = this.add.text(this.cameras.main.width/2, 570, "Username:", {fontSize: "32px", fill: "#fff"}).setOrigin(0.5, 0.5);
+        let usernameInput = this.add.dom(this.cameras.main.width/2, 600, 'input', {
             type: 'text',
             placeholder: 'Username:',
-            value: "test", 
-            fill: "#fff"
-        });
+            value: "", 
+            fill: "#000"
+        }).setOrigin(0.5, 0.5);
 
         // Create password input
-        let passwordInput = this.add.dom(1920/2-48, 700-96, 'input', {
+        let pHEader = this.add.text(this.cameras.main.width/2, 670, "Password:", {fontSize: "32px", fill: "#fff"}).setOrigin(0.5, 0.5);
+        let passwordInput = this.add.dom(this.cameras.main.width/2, 700, 'input', {
             type: 'password',
             placeholder: 'Password:',
-            value: "test",
-            fill: "#fff"
-        });
+            value: "",
+            fill: "#000"
+        }).setOrigin(0.5, 0.5);
 
-        let createButton = this.add.text(1920/2-48, 1100-96, "Create Account", {fontSize: "48px", fill: "#fff" })
+        let createButton = this.add.text(this.cameras.main.width/2, 900, "Create Account", {fontSize: "48px", fill: "#fff" })
+        .setOrigin(0.5, 0.5)
         .setInteractive()
+        .on('pointerover', () => {
+            createButton.setStyle({ fill: "#ff0" });  
+        })
+        .on('pointerout', () => {
+            createButton.setStyle({ fill: "#fff" });  
+        })
         .on('pointerdown', () => {
             loginButton.value = "";
             headerText.value = "Create Account";
@@ -53,8 +62,15 @@ export class Login extends Phaser.Scene
         });
 
         // Create login button
-        let loginButton = this.add.text(1920/2-48, 1000-96, "Login", {fontSize: "48px", fill: "#fff" })
+        let loginButton = this.add.text(this.cameras.main.width/2, 800, "Login", {fontSize: "48px", fill: "#fff" })
+            .setOrigin(0.5, 0.5)
             .setInteractive()
+            .on('pointerover', () => {
+                loginButton.setStyle({ fill: "#ff0" });  
+            })
+            .on('pointerout', () => {
+                loginButton.setStyle({ fill: "#fff" });  
+            })
             .on('pointerdown', () => {
                 let username = usernameInput.node.value;
                 let password = passwordInput.node.value;
@@ -65,7 +81,8 @@ export class Login extends Phaser.Scene
                     loginButton.destroy();
                     this.scene.start('Game');
                 } else {
-                    loginText = this.add.text(1920/2-96*2, 600, "Invalid login", { fontSize: "48px", fill: "#f00" });
+                    loginText = this.add.text(this.cameras.main.width/2, 800, "Invalid login", { fontSize: "48px", fill: "#f00" });
+                    loginText.setOrigin(0.5, 0.5)
                 }
             });
 
