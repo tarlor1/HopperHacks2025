@@ -9,7 +9,7 @@ export class Dungeon extends Phaser.Scene {
     preload() {
         // Load assets
         this.load.image('battleBackground', 'assets/PokemonBattleScene.png');
-        this.load.image('boss1', 'assets/spencerknife.png');
+        this.load.image('boss1', 'assets/boss1.png');
     }
 
     create() {
