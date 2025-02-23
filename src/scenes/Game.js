@@ -176,18 +176,21 @@ export class Game extends Phaser.Scene {
         }
     }
     hideMessage() {
-        // Hide the message when the player leaves the trigger area
-        if (this.message) {
-            this.message.setText("");
-        }
+        // Check if the message exists and destroy it to clean up
+    	if (this.message) {
+        	this.message.destroy();  // Destroy the message to avoid conflicts
+        	this.message = null;  // Reset the reference to the message object
+    	}
     }
     openHabitTracking() {
         // Open the Habit Tracking Scene
+		this.scene.stop('Game');
         console.log("Opening Habit Tracker...");
         this.scene.launch("HabitTracking");
     }
     openShop() {
         // Open the Shop Scene
+		this.scene.stop('Game');
         console.log("Opening Shop...");
         this.scene.launch("Shop");
     }
@@ -195,6 +198,7 @@ export class Game extends Phaser.Scene {
 	//Edit later (Dungeon boss)
 	openDungeon(){
 		// Open Dungeon Scene
+		this.scene.stop('Game');
 		console.log("Entering Dungeon");
 		this.scene.launch("Dungeon");
 	}

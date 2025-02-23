@@ -9,22 +9,36 @@ export class Dungeon extends Phaser.Scene {
     }
 
     create() {
+
+        //UI Scene
+        if (!this.scene.isActive("UIScene")) {
+            this.scene.launch("UIScene");
+        }
+        this.uiScene = this.scene.get("UIScene");
+
+        // Example: Displaying UI values (HP, stamina, and coins)
+        console.log("Player HP:", this.uiScene.hp);
+        console.log("Player Stamina:", this.uiScene.stamina);
+        console.log("Player Coins:", this.uiScene.coins);
+
+
+        
         // Create background image
         this.background = this.add.image(1920 / 2, 1080 / 2, 'battleBackground');
         this.background.setDisplaySize(1920, 1080); // Resize to fit the screen
 
         // Create text-based buttons
-        this.attackButton = this.add.text(200, 100, 'Attack', { fontSize: '32px', fill: '#fff' })
+        this.attackButton = this.add.text(1500, 900, 'Attack', { fontSize: '32px', fill: '#fff' })
             .setInteractive()
             .setOrigin(0.5, 0.5);
 
-        this.runButton = this.add.text(500, 100, 'Run', { fontSize: '32px', fill: '#fff' })
+        this.runButton = this.add.text(1700, 900, 'Run', { fontSize: '32px', fill: '#fff' })
             .setInteractive()
             .setOrigin(0.5, 0.5);
 
         // Handle mouse hover over the attack button
         this.attackButton.on('pointerover', () => {
-            this.attackButton.setStyle({ fill: '#ff0' });  // Change color to yellow on hover
+            this.attackButton.setStyle({ fill: 'red' });  // Change color to yellow on hover
             this.attackButton.setScale(1.1);  // Enlarge the button when hovered
         }).on('pointerout', () => {
             this.attackButton.setStyle({ fill: '#fff' });  // Reset color when not hovered
@@ -33,7 +47,7 @@ export class Dungeon extends Phaser.Scene {
 
         // Handle mouse hover over the run button
         this.runButton.on('pointerover', () => {
-            this.runButton.setStyle({ fill: '#ff0' });  // Change color to yellow on hover
+            this.runButton.setStyle({ fill: 'red' });  // Change color to yellow on hover
             this.runButton.setScale(1.1);  // Enlarge the button when hovered
         }).on('pointerout', () => {
             this.runButton.setStyle({ fill: '#fff' });  // Reset color when not hovered
@@ -49,6 +63,8 @@ export class Dungeon extends Phaser.Scene {
         this.runButton.on('pointerdown', () => {
             this.handleRun();
         });
+
+        this.scene.bringToTop("UIScene");
     }
 
     update() {
@@ -58,13 +74,20 @@ export class Dungeon extends Phaser.Scene {
     handleBattleChoice(choice) {
         // Handle the player's choice (Attack)
         console.log('Player chose:', choice);
-        this.showMessage(`You chose to ${choice}!`);
+        let attMsg = this.add.text(960, 300, "Player chose to " + choice, { fontSize: '32px', fill: '#fff' })
+            .setOrigin(0.5, 0.5);
+
+        // Destroy the message after a delay
+        this.time.delayedCall(1500, () => {
+            attMsg.destroy();
+        });
     }
 
     handleRun() {
         // Transition to the Game scene when "Run" button is clicked
         console.log('Player chose to run. Transitioning to Game scene.');
         this.scene.stop('Dungeon');
+        this.scene.launch('Game');
     }
 
     showMessage(message) {
@@ -76,5 +99,28 @@ export class Dungeon extends Phaser.Scene {
         this.time.delayedCall(1500, () => {
             messageText.destroy();
         });
+    }
+
+
+    
+
+
+    
+
+    update()
+    {
+        // 💖 Example: Reduce stamina when moving
+		let hp = this.uiScene.hp;
+		let stamina = this.uiScene.stamina;
+		let coins = this.uiScene.coins;
+
+		// Increase coins based on habit tracker
+
+		// 🔄 Update UI in UIScene
+		let uiScene = this.scene.get("UIScene");
+		if (uiScene) {
+			uiScene.updateUI(hp, stamina, coins);
+		}
+        // todo: change text side of the input
     }
 }

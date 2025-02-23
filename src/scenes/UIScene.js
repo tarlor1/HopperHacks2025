@@ -1,6 +1,7 @@
 export class UIScene extends Phaser.Scene {
 	constructor() {
 		super({ key: "UIScene" });
+		// super({ key: "UIScene", active: true });
 
 		this._hp = 100;
 		this._stamina = 100;
