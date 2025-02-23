@@ -51,6 +51,7 @@ export class Game extends Phaser.Scene {
 		// Create player with physics
 		this.player = this.add.sprite(100, 100, "dude"); // Use physics sprite here
 		this.cursors = this.input.keyboard.createCursorKeys();
+        this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);  // 'E' key for interaction
 
 		// Camera follow player
 		this.cameras.main.startFollow(this.player);
@@ -82,6 +83,10 @@ export class Game extends Phaser.Scene {
 			repeat: -1,
 		});
 
+        // Trigger areas for HabitTracking and Shop
+        this.habitTrackingArea = new Phaser.Geom.Rectangle(32*11, 69, 32, 32); // Example area for HabitTracking
+        this.shopArea = new Phaser.Geom.Rectangle(32*18, 69, 32, 32); // Example area for Shop
+
 		// Set collide world bounds for the player
 		// this.player.setCollideWorldBounds(true);
 
@@ -91,6 +96,8 @@ export class Game extends Phaser.Scene {
 	}
 
 	update() {
+        console.log(this.player.x); 
+        console.log(this.player.y);
 		if (this.cursors.left.isDown) {
 			this.player.x -= 4;
 			this.player.anims.play("left", true);
@@ -116,5 +123,48 @@ export class Game extends Phaser.Scene {
 		if (uiScene) {
 			uiScene.updateUI(100, stamina, coins);
 		}
+            
+        // Check if player is in HabitTracking or Shop areas and press 'E' to open them
+        if (Phaser.Geom.Rectangle.Contains(this.habitTrackingArea, this.player.x, this.player.y)) {
+            console.log("On Habit Tracker");
+            this.displayMessage("Press 'E' to open Habit Tracker");
+            if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+                this.openHabitTracking();
+            }
+        } else if (Phaser.Geom.Rectangle.Contains(this.shopArea, this.player.x, this.player.y)) {
+            console.log("On Shop");
+            this.displayMessage("Press 'E' to open Shop");
+            if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+                this.openShop();
+            }
+        } else {
+            this.hideMessage();
+        }
 	}
+    displayMessage(text) {
+        // Display a message (e.g., 'Press E to open Habit Tracker')
+        if (!this.message) {
+            this.message = this.add.text(this.player.x, this.player.y - 30, text, { font: "16px Arial", fill: "#fff" });
+        } else {
+            this.message.setText(text);
+        }
+    }
+    hideMessage() {
+        // Hide the message when the player leaves the trigger area
+        if (this.message) {
+            this.message.setText("");
+        }
+    }
+    openHabitTracking() {
+        // Open the Habit Tracking Scene
+        console.log("Opening Habit Tracker...");
+        this.scene.launch("HabitTracking");
+    }
+    openShop() {
+        // Open the Shop Scene
+        console.log("Opening Shop...");
+        this.scene.launch("Shop");
+    }
+
+
 }
