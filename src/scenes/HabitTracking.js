@@ -23,9 +23,9 @@ export class HabitTracking extends Phaser.Scene
             let goodHabit = goodHabitInput.node.value;
             let badHabit = badHabitInput.node.value;
             if(goodHabit){
-
+                this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins+5);
             } else if(badHabit){
-                
+                this.uiScene.updateUI(this.uiScene.hp, this.uiScene.stamina, this.uiScene.coins-5);
             }
         })
     }
